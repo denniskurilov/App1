@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+<meta charset="ISO-8859-1">
+<title>App</title>
+<style>
+div {
+	color: red;
+}
+</style>
+</head>
+
+<body>
+
+<form th:method="patch" th:action="@{/{id}/edit(id=${employee.getId()})}" th:object="${employee}">
+<label for="firstName">First Name:</label><br>
+<div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
+<input type="text" th:field="*{firstName}" id="firstName" /><br/><br/>
+
+<label for="lastName">Last Name:</label><br>
+<div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></div>
+<input type="text" th:field="*{lastName}" id="lastName" /><br/><br/>
+
+<label for="age">Age:</label><br>
+<div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+<input type="text" th:field="*{age}" id="age" /><br/><br/>
+
+<label for="email">E-Mail:</label><br>
+<div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+<input type="text" th:field="*{email}" id="email" /><br/><br/>
+<input type="submit" value="Save"/>
+</form>
+
+<p><a th:href="@{/{id}(id=${employee.getId()})}">back</a></p>
+
+</body>
+</html>

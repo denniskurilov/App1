@@ -1,0 +1,57 @@
+--DROP TABLE DENNIS.EMPLOYEE;
+--DROP SEQUENCE DENNIS.SQ_EMPLOYEE;
+
+
+
+CREATE TABLE DENNIS.EMPLOYEE (
+    ID              NUMBER              NOT NULL,
+    FIRST_NAME      VARCHAR2(30 CHAR)   NOT NULL,
+    LAST_NAME       VARCHAR2(30 CHAR)   NOT NULL,
+    AGE             NUMBER              NOT NULL,
+    EMAIL           VARCHAR2(50 CHAR)   NOT NULL
+);
+
+
+
+CREATE UNIQUE INDEX DENNIS.IDX_EMPLOYEE_ID ON DENNIS.EMPLOYEE(ID);
+
+
+
+ALTER TABLE DENNIS.EMPLOYEE ADD (
+    CONSTRAINT PK_EMPLOYEE
+    PRIMARY KEY (ID)
+    USING INDEX DENNIS.IDX_EMPLOYEE_ID
+);
+
+
+
+CREATE SEQUENCE DENNIS.SQ_EMPLOYEE
+    START WITH 1
+    MAXVALUE 999999999999999999
+    NOCACHE;
+
+
+
+CREATE OR REPLACE TRIGGER DENNIS.TR_EMPLOYEE
+BEFORE INSERT
+ON DENNIS.EMPLOYEE
+REFERENCING NEW AS New
+FOR EACH ROW
+DECLARE
+BEGIN
+  SELECT SQ_EMPLOYEE.NEXTVAL INTO :NEW.ID FROM DUAL;
+END;
+
+
+
+INSERT INTO EMPLOYEE(
+    FIRST_NAME,
+    LAST_NAME,
+    AGE,
+    EMAIL)
+select 'William' FIRST_NAME, 'Smith'    FIRST_NAME, 38 AGE, 'smith@gmail.com'    EMAIL from dual union all
+select 'Jack'    FIRST_NAME, 'Jones'    FIRST_NAME, 23 AGE, 'jjones@gmail.com'   EMAIL from dual union all
+select 'George'  FIRST_NAME, 'Williams' FIRST_NAME, 19 AGE, 'willy@hotmail.com'  EMAIL from dual union all
+select 'Thomas'  FIRST_NAME, 'Brown'    FIRST_NAME, 65 AGE, 'brown@gmail.com'    EMAIL from dual union all
+select 'James'   FIRST_NAME, 'Taylor'   FIRST_NAME, 52 AGE, 'j.taylor@gmail.com' EMAIL from dual;
+commit;
